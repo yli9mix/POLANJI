@@ -19,7 +19,9 @@ export const options = {
     environment: env.name,
     testType: WORKLOAD,
   },
-  scenarios: WORKLOAD ? { [WORKLOAD]: scenarios[WORKLOAD] } : scenarios[smoke], // run smoke if no WORKLOAD env variable is passed
+  scenarios: WORKLOAD
+    ? { [WORKLOAD]: scenarios[WORKLOAD] }
+    : { smoke: scenarios["smoke"] }, // run smoke if no WORKLOAD env variable is passed
   thresholds: Object.assign(
     {},
     thresholds("createUser"),
