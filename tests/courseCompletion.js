@@ -1,4 +1,4 @@
-// CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=smoke -e PASSWORD=user123456 tests/courseCompletion.js
+// CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=baseline -e PASSWORD={setPassword} tests/courseCompletion.js
 
 import { User } from "../requests/User.js";
 import { Course } from "../requests/Course.js";
@@ -21,7 +21,7 @@ export const options = {
   },
   scenarios: WORKLOAD
     ? { [WORKLOAD]: scenarios[WORKLOAD] }
-    : { smoke: scenarios["smoke"] }, // run smoke if no WORKLOAD env variable is passed
+    : { baseline: scenarios["baseline"] }, // run baseline test if no WORKLOAD env variable is passed
   thresholds: Object.assign(
     {},
     thresholds("createUser"),

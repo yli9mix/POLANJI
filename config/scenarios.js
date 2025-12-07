@@ -1,17 +1,16 @@
 export const scenarios = {
-  load: {
+  baseline: {
     executor: "ramping-vus",
     exec: "courseCompletion",
     stages: [
-      { duration: "1m", target: 2 },
+      { duration: "30s", target: 2 },
       { duration: "1m", target: 5 },
-      { duration: "1m", target: 0 },
+      { duration: "30s", target: 0 },
     ],
     gracefulRampDown: "15s",
   },
-
   stress: {
-    executor: "ramping-arrival-rate",
+    executor: "ramping-vus",
     exec: "courseCompletion",
     stages: [
       {
@@ -19,12 +18,6 @@ export const scenarios = {
         target: 20,
       },
     ],
-  },
-
-  smoke: {
-    executor: "per-vu-iterations",
-    exec: "courseCompletion",
-    vus: 1,
-    iterations: 1,
+    gracefulStop: "35s",
   },
 };
