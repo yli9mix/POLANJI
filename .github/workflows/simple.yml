@@ -1,0 +1,29 @@
+name: Performance Tests
+on:
+  # change to any branch triggers the test
+  push:
+    branches:
+      - "**"
+  schedule:
+    # run every 12 hrs
+    - cron: "0 */12 * * *"
+  # can manually trigger
+  workflow_dispatch:
+
+jobs:
+  run-k6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: grafana/setup-k6-action@v1
+      - name: Run test
+        uses: grafana/run-k6-action@v1
+        env:
+          ENV: ${{ vars.ENV }}
+          WORKLOAD: ${{ vars.WORKLOAD }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+        with:
+          path: |
+            ./tests/*.js
