@@ -27,7 +27,3 @@ jobs:
         with:
           path: |
             ./tests/*.js
-      - name: Print test run IDs
-        run: echo "Test run IDs - $TEST_RUN_IDS"
-        env:
-          TEST_RUN_IDS: ${{ steps.run_k6.outputs.testRunIds }}
