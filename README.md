@@ -72,7 +72,7 @@ The demo [stress](https://github.com/yli9mix/POLANJI/actions/runs/20016778064/jo
 
 ## Architectural & Operational Documentation
 
-In general, API performance tests should only be running from local as quick script verification. Actual tests should pretty much always be running from and against controlled environments, meaning no matter if tests are kicked off from Ci agents or dedicated EC2 instance, or k8s clusters and etc as runners or load generators, we would want them to be as consistent as possible performance-wise, and meanwhile monitor runner agents closely; also in most cases, tests should be running against stable and controlled environments that are as production like as possible, especially for large scale stress and breakpoint tests. There is nothing wrong testing early even in dev or qa environements to catch regressions as soon as possible on the other hand.
+In general, API performance tests should only be running from local as quick script verification. Actual tests should pretty much always be running from and against controlled environments, meaning no matter if tests are kicked off from Ci agents (better to be self-hosted) or dedicated EC2 instance, or k8s clusters and etc as runners or load generators, we would want them to be as consistent as possible performance-wise, and meanwhile monitor runner agents closely; also in most cases, tests should be running against stable and controlled environments that are as production like as possible, especially for large scale stress and breakpoint tests. There is nothing wrong testing early even in dev or qa environements to catch regressions as soon as possible on the other hand.
 
 Results and metrics tagging is a broad topic. In general:
 
@@ -84,14 +84,15 @@ Results and metrics tagging is a broad topic. In general:
 
 ## How to Run This Test
 
-- Option 1:
+The test runs automatically from github hosted runner whenever any change is made to any branch of this repo. Also a demo CRON job kicks off baseline test every 12 hrs from github hosted runner, which I will turn off soon.
+
+- Manual Option 1 (local run):
   - Pull down repo
   - CLI: `k6 run -e ENV=staging -e WORKLOAD=baseline(or stress) -e PASSWORD={setPassword} --summary-mode=full tests/courseCompletion.js`
-- Option 2:
+- Manual Option 2 (github workflow run):
   - Go to 'Actions' tab of the repo
   - Click 'All Workflows' -> 'Performance Tests' workflow on the left
   - Click 'Run workflow' on the right
-  - I added a sample CRON job to automatically run the test from Github actions every 12 hrs, which I will turn off soon
 
 ## Future Work
 
