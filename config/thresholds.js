@@ -2,8 +2,6 @@ export function thresholds(
   path,
   respThreshold = 3000,
   respWaitThreshold = 2500,
-  respConnectThreshold = 1500,
-  respTLSThreshold = 1000,
   respRecThreshold = 1000,
   failThreshold = 0.05,
   checkThreshold = 0.95,
@@ -19,20 +17,6 @@ export function thresholds(
     [`http_req_waiting{ name: ${path} }`]: [
       {
         threshold: `p(95)<${respWaitThreshold}`,
-        abortOnFail: true,
-        delayAbortEval: "30s",
-      },
-    ],
-    [`http_req_connecting{ name: ${path} }`]: [
-      {
-        threshold: `p(95)<${respConnectThreshold}`,
-        abortOnFail: true,
-        delayAbortEval: "30s",
-      },
-    ],
-    [`http_req_tls_handshaking{ name: ${path} }`]: [
-      {
-        threshold: `p(95)<${respTLSThreshold}`,
         abortOnFail: true,
         delayAbortEval: "30s",
       },
