@@ -83,7 +83,7 @@ export function courseCompletion() {
 
   // 01. Creat User
   const userEmail = `performancetest09+${
-    Math.floor(Math.random() * 9000) + 1000
+    Math.floor(Math.random() * 900000) + 100000
   }@gmail.com`;
   console.log(`Username: ${userEmail}`);
   const userInfo = {
