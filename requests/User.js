@@ -1,11 +1,23 @@
 import { ApiClient } from "../clients/ApiClient.js";
 
+/**
+ * API wrapper for user related endpoints.
+ * @extends ApiClient
+ */
 export class User extends ApiClient {
+  /**
+   * @param {string} baseUrl - Base URL for API requests.
+   */
   constructor(baseUrl) {
     super(baseUrl);
     this.headers = { "Content-Type": "application/json" };
   }
 
+  /**
+   * Create a new user.
+   * @param {object} userData - Payload required to create a new user.
+   * @returns {object} k6 HTTP response.
+   */
   createUser(userData) {
     return this.request(
       "POST",
@@ -19,6 +31,11 @@ export class User extends ApiClient {
     );
   }
 
+  /**
+   * Log in a user with form-encoded credentials.
+   * @param {string} credentials - Form-encoded credentials string.
+   * @returns {object} k6 HTTP response.
+   */
   login(credentials) {
     return this.request(
       "POST",
@@ -39,6 +56,11 @@ export class User extends ApiClient {
     );
   }
 
+  /**
+   * Retrieve a user's interests.
+   * @param {string} accessToken - Bearer token for authentication.
+   * @returns {object} k6 HTTP response.
+   */
   interests(accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -54,6 +76,12 @@ export class User extends ApiClient {
     );
   }
 
+  /**
+   * Get the list of all courses completed by a user.
+   * @param {string|number} userId - User Id.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   getCompletedCourses(userId, accessToken) {
     const authHeaders = {
       ...this.headers,

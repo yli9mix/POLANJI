@@ -1,3 +1,13 @@
+/**
+ * Build a thresholds object to trigger individual per request sub-metrics, which k6 lacks.
+ * @param {string} path - The logical name used in metric tags for this threshold (used in the `name` tag).
+ * @param {number} [respThreshold=3000] - Max p95 response duration in ms for `http_req_duration`.
+ * @param {number} [respWaitThreshold=2500] - Max p95 waiting time in ms for `http_req_waiting`.
+ * @param {number} [respRecThreshold=1000] - Max p95 receiving time in ms for `http_req_receiving`.
+ * @param {number} [failThreshold=0.05] - Maximum allowed failure rate for the request.
+ * @param {number} [checkThreshold=0.95] - Minimum required pass rate for checks.
+ * @returns {Object} k6 thresholds object scoped to the provided path/name/endpoint.
+ */
 export function thresholds(
   path,
   respThreshold = 3000,

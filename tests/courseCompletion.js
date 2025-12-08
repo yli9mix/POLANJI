@@ -1,5 +1,24 @@
 // CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=baseline -e PASSWORD={setPassword} --summary-mode=full tests/courseCompletion.js
 
+/**
+ * k6 Performance test: courseCompletion user journey
+ *
+ * This k6 test script simulates a user completing a course end-to-end:
+ * - create a user
+ * - log in with the newly created user
+ * - fetch interests and recommendations
+ * - enroll in a random recommended course
+ * - iterate through all quizzes of the enrolled course: update progress, start and complete quizzes
+ * - verify the finished course appears in the user's completed courses
+ *
+ * Environment variables:
+ * - `ENV`: environment key from `config/envs.js` (default: `staging`, if not passed in CLI).
+ * - `WORKLOAD`: scenario name from `config/scenarios.js`, currently either `baseline`(default, if not passed in CLI) or `stress`.
+ * - `PASSWORD`: password to use for all created users.
+ *
+ * @module tests/courseCompletion
+ */
+
 import { User } from "../requests/User.js";
 import { Course } from "../requests/Course.js";
 import { Topics } from "../requests/Topics.js";
@@ -14,6 +33,10 @@ if (env.name !== "staging") {
 
 const { WORKLOAD } = __ENV;
 
+/**
+ * k6 options for this scenario. See `config/scenarios.js` and `config/thresholds.js`.
+ * @type {Object}
+ */
 export const options = {
   tags: {
     environment: env.name,
@@ -45,6 +68,12 @@ const user = new User(BASE_URL);
 const course = new Course(BASE_URL);
 const topics = new Topics(BASE_URL);
 
+/**
+ * Named function (has to match `exec` name in scenarios object) that walks through creating a user and completing a course.
+ * The function uses the request wrappers in `requests/` to interact with the API
+ * and relies on `__ENV.PASSWORD` to set the user's password.
+ * @returns {void}
+ */
 export function courseCompletion() {
   let resp;
   let userId;
@@ -54,7 +83,7 @@ export function courseCompletion() {
 
   // 01. Creat User
   const userEmail = `performancetest09+${
-    Math.floor(Math.random() * 9000) + 1000
+    Math.floor(Math.random() * 900000) + 100000
   }@gmail.com`;
   console.log(`Username: ${userEmail}`);
   const userInfo = {

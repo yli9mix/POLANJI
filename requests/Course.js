@@ -1,12 +1,24 @@
 import { ApiClient } from "../clients/ApiClient.js";
 
+/**
+ * API wrapper for courses related endpoints.
+ * @extends ApiClient
+ */
 export class Course extends ApiClient {
+  /**
+   * @param {string} baseUrl - Base URL for API requests.
+   */
   constructor(baseUrl) {
     super(baseUrl);
     this.headers = { "Content-Type": "application/json" };
   }
 
-  // might not use this request
+  /**
+   * List all available courses.
+   * @param {string} accessToken - Bearer token for authentication.
+   * @returns {object} k6 HTTP response.
+   */
+  // did not use this request in the API sequence
   listAllCourses(accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -22,6 +34,12 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Get course recommendations for a user.
+   * @param {string|number} userId - User Id.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   getRecommendations(userId, accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -37,6 +55,12 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Get courses a user is currently enrolled in.
+   * @param {string|number} userId - User Id.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   getEnrolledCourses(userId, accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -52,6 +76,13 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Enroll a user in a new course.
+   * @param {string|number} courseId - Course Id.
+   * @param {string|number} userId - User Id.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   enrollCourse(courseId, userId, accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -72,6 +103,12 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Retrieve details for a course.
+   * @param {string|number} courseId - Course Id.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   getCourseDetails(courseId, accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -87,6 +124,14 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Update a user's progress for a course.
+   * @param {string|number} courseId - Course Id.
+   * @param {number} progress - Progress value with percentage but without %.
+   * @param {string|number} userId - User Id.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   updateProgress(courseId, progress, userId, accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -103,6 +148,13 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Start a quiz for a given section. The purpose for us is to return quiz details. Empty response means no quiz for this section
+   * @param {string|number} courseId - Course Id.
+   * @param {number} sectionIndex - Section index.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   startQuiz(courseId, sectionIndex, accessToken) {
     const authHeaders = {
       ...this.headers,
@@ -118,6 +170,13 @@ export class Course extends ApiClient {
     );
   }
 
+  /**
+   * Mark a quiz as complete for a section.
+   * @param {string|number} courseId - Course Id.
+   * @param {number} sectionIndex - Section index.
+   * @param {string} accessToken - Bearer token.
+   * @returns {object} k6 HTTP response.
+   */
   completeQuiz(courseId, sectionIndex, accessToken) {
     const authHeaders = {
       ...this.headers,
