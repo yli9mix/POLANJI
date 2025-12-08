@@ -5,11 +5,11 @@ import { Counter } from "k6/metrics";
 // ref: https://grafana.com/docs/k6/latest/javascript-api/k6-metrics/counter/
 const errors = new Counter("errors");
 
-// ref: https://grafana.com/docs/k6/latest/examples/error-handler/
 /**
  * Simple error handling helper used by API client wrappers.
  * @private
  */
+// ref: https://grafana.com/docs/k6/latest/examples/error-handler/
 class ErrorHandler {
   /**
    * Log an API error and record a k6 Counter custom metric when a check fails.
