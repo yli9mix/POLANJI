@@ -96,7 +96,7 @@ The test runs automatically from github hosted runner whenever any change is mad
 
 ## Future Work
 
-- Set up k6, influxDB and grafana as multiple containers together in the same place with docker compose
+- Set up k6, influxDB and grafana as multiple containers together in the same place with docker compose, which is straight forward but I did not get a chance to get to yet
 - Configure `k6-operator` for distributed tests
 - The current API sequence is pretty decent since it references how browser frontend utilizes the backend endpoints. Many times only API docs would be used to come up with the request sequence by making a lot of assumptions. However, the API sequence can still be improved to reflect real user journey even more accurately:
   - Only synchronous `k6 http.request()` method is used. Some requests, e.g. `GET /users/interests` and `GET recommendations?user_id=${}`, are actually fired up at or around the same time, without waiting for response from the other. This mean for some of the requests, new `k6 asyncRequest()` method would simulate actual traffic more accurately for this sample application
