@@ -33,6 +33,10 @@ if (env.name !== "staging") {
 
 const { WORKLOAD } = __ENV;
 
+/**
+ * k6 options for this scenario. See `config/scenarios.js` and `config/thresholds.js`.
+ * @type {Object}
+ */
 export const options = {
   tags: {
     environment: env.name,
@@ -58,17 +62,18 @@ export const options = {
   ),
 };
 
-/**
- * k6 options for this scenario. See `config/scenarios.js` and `config/thresholds.js`.
- * @type {Object}
- */
-
 const { PASSWORD } = __ENV;
 const BASE_URL = env.polanji;
 const user = new User(BASE_URL);
 const course = new Course(BASE_URL);
 const topics = new Topics(BASE_URL);
 
+/**
+ * Named function (has to match `exec` name in scenarios object) that walks through creating a user and completing a course.
+ * The function uses the request wrappers in `requests/` to interact with the API
+ * and relies on `__ENV.PASSWORD` to set the user's password.
+ * @returns {void}
+ */
 export function courseCompletion() {
   let resp;
   let userId;
@@ -155,10 +160,3 @@ export function courseCompletion() {
     { name: "getCompletedCourses" },
   );
 }
-
-/**
- * Named function (has to match `exec` name in scenarios object) that walks through creating a user and completing a course.
- * The function uses the request wrappers in `requests/` to interact with the API
- * and relies on `__ENV.PASSWORD` to set the user's password.
- * @returns {void}
- */
