@@ -1,3 +1,8 @@
+/**
+ * Predefined k6 scenarios used by the test runs.
+ * Adjust executors, stages and targets as needed for different test loadProfiles/workLoads/testType.
+ * @type {Object<string, object>}
+ */
 export const scenarios = {
   baseline: {
     executor: "ramping-vus",
