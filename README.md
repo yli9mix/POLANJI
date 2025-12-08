@@ -43,7 +43,7 @@ Note: some steps have multiple requests because browser indicates some actions a
 
 Black box performance testing is really old school and modern performance tests nowadays rely heavily on server side observability, metrics, logging and traces.
 
-Assuming our hands are tight and let's simulate a situation that we only have `k6` client side metrics available. We also need to assume we keep an close eye on load generator health and everything is normal with regular resource utilization on the test runner side, ruling out client side issue. Let's focus on the p(95) of [k6 HTTP-specific built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/#http), for both overall and individual API requests (test in this repo has individual per request sub-metrics triggered).
+Assuming our hands are tied and let's simulate a situation that we only have `k6` client side metrics available. We also need to assume we keep an close eye on load generator health and everything is normal with regular resource utilization on the test runner side, ruling out client side issue. Let's focus on the p(95) of [k6 HTTP-specific built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/#http), for both overall and individual API requests (test in this repo has individual per request sub-metrics triggered).
 
 Say during our stress/breakpoint test:
 
@@ -96,14 +96,18 @@ The test runs automatically from github hosted runner whenever any change is mad
 
 ## Future Work
 
-- Set up k6, influxDB and grafana as multiple containers together in the same place with docker compose, which is straight forward but I did not get a chance to get to yet
+- Set up k6, influxDB and grafana as multiple containers together in the same place with docker compose, which is straightforward but I did not get a chance to get to yet
 - Configure `k6-operator` for distributed tests
 - The current API sequence is pretty decent since it references how browser frontend utilizes the backend endpoints. Many times only API docs would be used to come up with the request sequence by making a lot of assumptions. However, the API sequence can still be improved to reflect real user journey even more accurately:
   - Only synchronous `k6 http.request()` method is used. Some requests, e.g. `GET /users/interests` and `GET recommendations?user_id=${}`, are actually fired up at or around the same time, without waiting for response from the other. This mean for some of the requests, new `k6 asyncRequest()` method would simulate actual traffic more accurately for this sample application
   - To mimic the worst case scenario, we can add pre-flight `OPTIONS` call to most of the endpoints. This simulates new user and users with browser cache disabled. We can also add logic simulating certain percentage of the users being first time user (or cache disabled user)
   - Fetch/xhr type of endpoint requests are the main focus so far. Document type requests, e.g. `GET www.polanji.com`, `GET www.polanji.com/dashboard` and etc, are completely skipped. Depending on how these are hosted, it might worth being included in the test flow. Not to be confused with rich content resources, e.g. stylesheet, .js, and etc, which should always be hosted on CDN and shouldn't be included in API performance test
-  - We can add logic to simulate more dynamic user joruneys for course completion
+  - We can add logic to simulate more dynamic user journeys for course completion
   - More wait time (`k6 sleep()`) can be added to better simulate real user behaviors
 - Some test data cleanup step should be added, say inside a `k6 teardown()`, or with direct Database operations. Each `VU` creates a new user at the moment but sending `DELETE /users/${user_id}` returns a 403 with response body `{"detail": "You do not have admin permissions"}`. Thus data cleanup was not implemented
-- No after test summary is saved as artifacts right now. `k6 handleSummary()` can be added along with a Github action workflow step. Grafana dashboard solution could make this obselete though
+- No after test summary is saved as artifacts right now. `k6 handleSummary()` can be added along with a Github action workflow step. Grafana dashboard solution could make this obsolete though
 - Browser tests, with either `k6-browser` or MS Playwright, should be added as synthetic monitoring or part of a hybrid approach, running with a single user while API load tests are going, to gather frontend metrics during heavy traffic
+
+## Commit History
+
+[HERE](https://github.com/yli9mix/POLANJI/commits/main/)
