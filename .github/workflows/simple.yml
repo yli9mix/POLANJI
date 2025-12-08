@@ -27,3 +27,4 @@ jobs:
         with:
           path: |
             ./tests/*.js
+          flags: --summary-mode=full

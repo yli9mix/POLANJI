@@ -1,4 +1,4 @@
-// CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=baseline -e PASSWORD={setPassword} tests/courseCompletion.js
+// CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=baseline -e PASSWORD={setPassword} --summary-mode=full tests/courseCompletion.js
 
 import { User } from "../requests/User.js";
 import { Course } from "../requests/Course.js";
