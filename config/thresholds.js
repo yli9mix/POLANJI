@@ -1,6 +1,8 @@
 export function thresholds(
   path,
   respThreshold = 3000,
+  respWaitThreshold = 2500,
+  respRecThreshold = 1000,
   failThreshold = 0.05,
   checkThreshold = 0.95,
 ) {
@@ -8,6 +10,20 @@ export function thresholds(
     [`http_req_duration{ name: ${path} }`]: [
       {
         threshold: `p(95)<${respThreshold}`,
+        abortOnFail: true,
+        delayAbortEval: "30s",
+      },
+    ],
+    [`http_req_waiting{ name: ${path} }`]: [
+      {
+        threshold: `p(95)<${respWaitThreshold}`,
+        abortOnFail: true,
+        delayAbortEval: "30s",
+      },
+    ],
+    [`http_req_receiving{ name: ${path} }`]: [
+      {
+        threshold: `p(95)<${respRecThreshold}`,
         abortOnFail: true,
         delayAbortEval: "30s",
       },

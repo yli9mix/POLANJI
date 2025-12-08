@@ -1,4 +1,4 @@
-// CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=baseline -e PASSWORD={setPassword} tests/courseCompletion.js
+// CLI to run the test: k6 run -e ENV=staging -e WORKLOAD=baseline -e PASSWORD={setPassword} --summary-mode=full tests/courseCompletion.js
 
 import { User } from "../requests/User.js";
 import { Course } from "../requests/Course.js";
@@ -99,7 +99,7 @@ export function courseCompletion() {
   resp = course.getCourseDetails(randomCourseId, accessToken);
   totalQuizzes = Object.keys(resp.json("quiz_status")).length;
 
-  // 06. Update Course Progress & Start Quiz
+  // 06. Update Course Progress & Start Quiz & Complete Quiz
   // Update Course Progress is pretty complicated and here is a simplified version
   for (let i = 0; i < totalQuizzes; i++) {
     sleep(Math.random() * 2);
